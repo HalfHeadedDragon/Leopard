@@ -25,7 +25,22 @@ class AreaLayout
     public RemoveFrom(Scene:Engineer.Scene2D) : void
     {
         for(let i in this._Entries) this._Entries[i].RemoveFromScene(Scene);
-    }   
+    }
+    public Load(Data:any) : void
+    {
+        if(!Data || !Data.Entries)
+        {
+            Engineer.Log.Warning("Invalid Data for AreaLayout.");
+            Engineer.Log.Warning(Data);
+            return;
+        }
+        for(let i in Data.Entries)
+        {
+            let Entry = new AreaLayoutEntry();
+            Entry.Load(Data.Entries[i]);
+            this._Entries.push(Entry);
+        }
+    }
 }
 class AreaLayoutEntry
 {
@@ -74,6 +89,18 @@ class AreaLayoutEntry
             this._Generated = null;
         }
     }
+    public Load(Data:any) : void
+    {
+        if(!Data || !Data.Position || !Data.Size)
+        {
+            Engineer.Log.Warning("Invalid Data for AreaLayoutEntry.");
+            Engineer.Log.Warning(Data);
+            return;
+        }
+        this._ArtIndex = Data.Art;
+        this._Position = new Engineer.Vertex(Data.Position.X, Data.Position.Y, Data.Position.Z);
+        this._Size = new Engineer.Vertex(Data.Size.X, Data.Size.Y, Data.Size.Z);
+    }
 }
 
 class AreaLayoutArtCollection extends Engineer.TileCollection
@@ -89,6 +116,7 @@ class AreaLayoutArtCollection extends Engineer.TileCollection
     }
     private InitCollection() : void
     {
-        this.Images.push("Resources/Textures/AreaLayout/Island0.png");
+        this.Images.push("Resources/Textures/Islands/Island0.png");
+        this.Images.push("Resources/Textures/Islands/Island1.png");
     }
 }
