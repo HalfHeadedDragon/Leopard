@@ -1,6 +1,6 @@
 export { GameScene };
 
-import Engineer from "./Engineer";
+import * as Engineer from "engineer-js";
 
 class GameScene extends Engineer.Scene2D
 {

@@ -1,9 +1,9 @@
 export { GameLogic };
 
-import Engineer from "./Engineer";
+import * as Engineer from "engineer-js";
 
 import { MainMenu } from "./MainMenu";
-import { GameScene } from "./GameScene";
+import { GameScene } from "./../GameScene";
 
 class GameLogic
 {

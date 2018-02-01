@@ -1,8 +1,8 @@
 export { MainMenu };
 
-import Engineer from "./Engineer";
+import * as Engineer from "engineer-js";
 
-import { GameScene } from "./GameScene";
+import { GameScene } from "./../GameScene";
 
 class MainMenu extends Engineer.Scene2D
 {
