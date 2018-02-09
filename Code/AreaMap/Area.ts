@@ -37,10 +37,18 @@ class Area
     public Activate(Scene:Engineer.Scene2D) : void
     {
         this._Layout.AddTo(Scene);
+        for(let i in this._Ships)
+        {
+            this._Ships[i].Activate(Scene);
+        }
     }
     public Deactivate(Scene:Engineer.Scene2D) : void
     {
         this._Layout.RemoveFrom(Scene);
+        for(let i in this._Ships)
+        {
+            this._Ships[i].Deactivate(Scene);
+        }
     }
     public Load(Data:any) : void
     {
@@ -51,5 +59,11 @@ class Area
             return;
         }
         this._Layout.Load(Data.Layout);
+        for(let i in Data.Ships)
+        {
+            let NewShip = new Ship();
+            NewShip.Load(Data.Ships[i]);
+            this._Ships.push(NewShip);
+        }
     }
 }

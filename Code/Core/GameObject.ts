@@ -4,6 +4,7 @@ import * as Engineer from "engineer-js";
 
 import { Area } from "./../AreaMap/Area";
 import { Fleet } from "./../AreaMap/Fleet";
+import { AreaMap } from "./../AreaMap/AreaMap";
 
 class GameObject
 {
@@ -29,10 +30,9 @@ class GameObject
     {
         return new GameObject(this);
     }
-    public ActivateArea(Scene:Engineer.Scene2D) : void
+    public ActivateArea(Scene:AreaMap) : void
     {
-        this._Areas[this._ActiveArea].Activate(Scene);
-        this._Fleet.Activate(Scene);
+        Scene.SwitchArea(this._Areas[this._ActiveArea], this._Fleet);
     }
     public Load(Data:any) : void
     {

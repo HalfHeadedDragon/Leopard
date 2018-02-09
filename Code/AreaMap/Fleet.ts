@@ -8,6 +8,8 @@ class Fleet
 {
     private _MainShip:Ship;
     private _Ships:Ship[];
+    private _Scene:Engineer.Scene2D;
+    public get MainShip():Ship { return this._MainShip; }
     public constructor(Old?:Fleet)
     {
         this._Ships = [];
@@ -27,8 +29,18 @@ class Fleet
     }
     public Activate(Scene:Engineer.Scene2D) : void
     {
+        this._Scene = Scene;
         this._MainShip.Activate(Scene);
         for(let i in this._Ships) this._Ships[i].Activate(Scene);
+    }
+    public Update()
+    {
+        if(this._MainShip.OnMove)
+        {
+            this._MainShip.Update();
+            this._Scene.Trans.Translation = new Engineer.Vertex(-this._MainShip.Position.X + 960, -this._MainShip.Position.Y + 540, 0);
+            for(let i in this._Ships) this._Ships[i].Update();
+        }
     }
     public Load(Data) : void
     {

@@ -42,12 +42,15 @@ class AreaLayout
         }
     }
 }
+
 class AreaLayoutEntry
 {
     private _ArtIndex:number;
     private _Position:Engineer.Vertex;
     private _Size:Engineer.Vertex;
+    private _Collision:Engineer.CollisionType;
     private _Generated:Engineer.Tile;
+    private _Colliders:Engineer.Tile[];
     public get ArtIndex():number { return this._ArtIndex; }
     public set ArtIndex(Value:number) { this._ArtIndex = Value; }
     public get Position():Engineer.Vertex { return this._Position; }
@@ -62,12 +65,15 @@ class AreaLayoutEntry
             this._ArtIndex = Old._ArtIndex;
             this._Position = Old._Position.Copy();
             this._Size = Old._Size.Copy();
+            this._Colliders = [];
+            for(let i in Old._Colliders) this._Colliders.push(Old._Colliders[i].Copy());
         }
         else
         {
             this._ArtIndex = 0;
             this._Position = new Engineer.Vertex(0,0,0);
             this._Size = new Engineer.Vertex(100,100,1);
+            this._Colliders = [];
         }
     }
     public Copy() : AreaLayoutEntry
@@ -78,14 +84,18 @@ class AreaLayoutEntry
     {
         this._Generated = Engineer.SceneObjectUtil.CreateTile("Island", null, this._Position.Copy(), this._Size.Copy());
         this._Generated.Collection = new AreaLayoutArtCollection();
-        this._Generated.Index = 0;
+        this._Generated.Index = this._ArtIndex;
+        this._Generated.Data["Island"] = true;
+        if(this._Collision != null) this._Generated.Data["Collision"] = this._Collision;
         Scene.AddSceneObject(this._Generated);
+        for(let i in this._Colliders) Scene.AddSceneObject(this._Colliders[i]);
     }
     public RemoveFromScene(Scene:Engineer.Scene2D) : void
     {
         if(this._Generated)
         {
             Scene.RemoveSceneObject(this._Generated);
+            for(let i in this._Colliders) Scene.RemoveSceneObject(this._Colliders[i]);
             this._Generated = null;
         }
     }
@@ -100,6 +110,27 @@ class AreaLayoutEntry
         this._ArtIndex = Data.Art;
         this._Position = new Engineer.Vertex(Data.Position.X, Data.Position.Y, Data.Position.Z);
         this._Size = new Engineer.Vertex(Data.Size.X, Data.Size.Y, Data.Size.Z);
+        if(Data.Colliders)
+        {
+            for(let i in Data.Colliders) this.LoadCollider(Data.Colliders[i]);
+        }
+    }
+    private LoadCollider(Data:any) : void
+    {
+        if(!Data || !Data.Position || !Data.Size)
+        {
+            Engineer.Log.Warning("Invalid Data for AreaLayoutEntry Collider.");
+            Engineer.Log.Warning(Data);
+            return;
+        }
+        let Collider:Engineer.Tile = new Engineer.Tile;
+        Collider.Trans.Translation = new Engineer.Vertex(Data.Position.X, Data.Position.Y, Data.Position.Z);
+        Collider.Trans.Scale = new Engineer.Vertex(Data.Size.X, Data.Size.Y, Data.Size.Z);
+        Collider.Data["IslandCollider"] = true;
+        Collider.Active = false;
+        if(Data.Collision == "Radius") Collider.Data["Collision"] = Engineer.CollisionType.Radius2D;
+        if(Data.Collision == "Rectangular") Collider.Data["Collision"] = Engineer.CollisionType.Rectangular2D;
+        this._Colliders.push(Collider);
     }
 }
 
