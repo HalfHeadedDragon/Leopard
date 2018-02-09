@@ -2,6 +2,7 @@ export { GameFile }
 
 let GameFile = 
 {
+    ActiveScreen:"Area",
     ActiveArea:0,
     Areas:
     [
@@ -72,8 +73,41 @@ let GameFile =
                     Speed: 2
                 }
             ],
-            Locations:[]
+            Locations:
+            [
+                {
+                    Name: "Shipwreck Island",
+                    ID: "ShipwreckIsland",
+
+                }
+            ],
+            LocationIcons:
+            [
+                {
+                    Position: { X:400, Y:900, Z:0 },
+                    Location: "ShipwreckIsland",
+                    Range: 250,
+                    Type: 0,
+                    ArtIndex: 1
+                },
+                {
+                    Position: { X:1100, Y:350, Z:0 },
+                    Location: "VolcanoIsland",
+                    Range: 150,
+                    Type: 1,
+                    ArtIndex: 3
+                }
+            ]
         },
+    ],
+    Mission:
+    [
+        {
+            Name: "Begining",
+            ID: "Begining",
+            TileSet: "Island",
+            
+        }
     ],
     Fleet:
     {

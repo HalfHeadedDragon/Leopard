@@ -17,7 +17,7 @@ class MainMenu extends Engineer.Scene2D
     {
         this.Name = "Menu";
         let Buttons:any = new Engineer.TileCollection(null, ["/Resources/Textures/Play.png"]);
-        let Play:any = Engineer.SceneObjectUtil.CreateTile("Play", ["/Resources/Textures/Play.png"], new Engineer.Vertex(200, 200, 0), new Engineer.Vertex(300, 150, 1));
+        let Play:any = Engineer.SceneObjectUtil.CreateTile("Play", ["/Resources/Textures/Menu/Play.png"], new Engineer.Vertex(200, 200, 0), new Engineer.Vertex(300, 150, 1));
         Play.Events.MouseDown.push(this._OnPlay);
         this.AddSceneObject(Play);
         this._Game.AddScene(this);

@@ -38,15 +38,14 @@ class AreaMap extends Engineer.Scene2D
         if(this._Fleet.MainShip.OnMove)
         {
             this._Fleet.Update();
+            this._Area.Update(this._Fleet.MainShip.Position);
         }
     }
     private LoadBackround() : void
     {
         let Tile = Engineer.SceneObjectUtil.CreateTile("Back", ["Resources/Textures/Other/Water.png"], new Engineer.Vertex(960,540,0), new Engineer.Vertex(3840,2160,1));
-        //Tile.Paint = Engineer.Color.FromString("#1E90FF");
-        Tile.RepeatX = 80;
-        Tile.RepeatY = 50;
-        //Tile.Fixed = true;
+        Tile.RepeatX = 16;
+        Tile.RepeatY = 10;
         this.AddSceneObject(Tile);
     }
     private MouseDown(Game:Engineer.Game, Args:any) : void
